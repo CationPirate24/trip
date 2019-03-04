@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.java.mapper.MyCommentMapper">
+	
+	<resultMap type="myComment" id="myCommentMap">
+		<result property="id" column="ID"/>
+		<result property="username" column="USERNAME"/>
+		<result property="describe" column="DESCRIBE"/>
+		<result property="grade" column="GRADE"/>
+		<result property="time" column="TIME"/>
+		<result property="pictureId" column="PICTURE_ID"/>
+		<result property="title" column="TITLE"/>
+		<result property="accountId" column="ACCOUNT_ID"/>
+		<result property="type" column="TYPE"/>
+	</resultMap>
+	
+	<!-- 根据用户id来查找用户的评论  -->
+	<select id="getByAccountId" parameterType="String" resultMap="myCommentMap">
+		SELECT * FROM MY_COMMENT WHERE ACCOUNT_ID=#{accountId}
+	</select>
+	
+	<!-- 根据用户id来查找用户的评论条数  -->
+	<select id="getCountByAccountId" parameterType="String" resultType="Integer">
+		SELECT COUNT(*) FROM MY_COMMENT WHERE ACCOUNT_ID=#{accountId}
+	</select>
+	
+	<!-- 管理员根据评论类型来查找评论  -->
+	<select id="getByType" parameterType="String" resultMap="myCommentMap">
+		SELECT * FROM MY_COMMENT WHERE TYPE=#{type}
+	</select>
+	
+	<!-- 管理员根据评论类型来查找评论条数  -->
+	<select id="getCountByType" parameterType="String" resultType="Integer">
+		SELECT COUNT(*) FROM MY_COMMENT WHERE TYPE=#{type}
+	</select>
+	
+	<!-- 根据id查询评论  -->
+	<select id="getById" parameterType="String" resultMap="myCommentMap">
+		SELECT * FROM MY_COMMENT WHERE ID=#{id}
+	</select>
+	
+	<!-- 查询所有评论  -->
+	<select id="getAll" parameterType="String" resultMap="myCommentMap">
+		SELECT * FROM MY_COMMENT
+	</select>
+	
+	<!-- 增加评论  -->
+	<insert id="add" parameterType="myComment">
+		INSERT INTO MY_COMMENT VALUES(#{id},#{username},#{describe},
+		#{grade},#{time},#{pictureId},#{title},#{accountId},#{type})
+	</insert>
+	
+	<!-- 删除评论  -->
+	<delete id="delete" parameterType="String">
+		DELETE FROM MY_COMMENT WHERE ID=#{id}
+	</delete>
+	
+	<!-- 修改评论  -->
+	<update id="update" parameterType="myComment">
+		UPDATE MY_COMMENT
+		<set>
+			<if test="username!=null and username!=''">
+				USERNAME=#{username},
+			</if>
+			<if test="describe!=null and describe!=''">
+				DESCRIBE=#{describe},
+			</if>
+			<if test="grade!=null and grade!=''">
+				GRADE=#{grade},
+			</if>
+			<if test="time!=null and time!=''">
+				TIME=#{time},
+			</if>
+			<if test="pictureId!=null and pictureId!=''">
+				PICTURE_ID=#{pictureId},
+			</if>
+			<if test="title!=null and title!=''">
+				TITLE=#{title},
+			</if>
+			<if test="accountId!=null and accountId!=''">
+				ACCOUNT_ID=#{accountId},
+			</if>
+			<if test="type!=null and type!=''">
+				TYPE=#{type},
+			</if>
+		</set>
+		WHERE ID=#{id}
+	</update>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

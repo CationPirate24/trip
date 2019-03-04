@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="trip"
+  id="myeclipse.1475461691301"
+  context-root="/trip"
+  j2ee-spec="5.0"
+  archive="trip.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+

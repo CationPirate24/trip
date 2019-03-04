@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.java.mapper.MyFoodMapper">
+	
+	<resultMap type="myFood" id="myFoodMap">
+		<result property="id" column="ID"/>
+		<result property="name" column="NAME"/>
+		<result property="price" column="PRICE"/>
+		<result property="describe" column="DESCRIBE"/>
+		<result property="grade" column="GRADE"/>
+		<result property="pictureId" column="PICTURE_ID"/>
+		<result property="type" column="TYPE"/>
+		<result property="address" column="ADDRESS"/>
+		<result property="mapId" column="MAP_ID"/>
+		
+		
+	
+	</resultMap>
+	
+	<!-- 遍历城市所有美食  -->
+	<select id="getByMyCityId" parameterType="String" resultMap="myFoodMap">
+		SELECT * FROM MY_FOOD WHERE ADDRESS=#{address}
+	</select>
+	
+	<!-- 查询所有记录条数  -->
+	<select id="getAllCount" resultType="Integer">
+		SELECT COUNT(*) FROM MY_FOOD
+	</select>
+	
+	<!-- 分页查询  -->
+	<select id="getEveryPageCount" parameterType="page" resultMap="myFoodMap">
+		SELECT * FROM (SELECT ROWNUM m,mf.* FROM MY_FOOD mf WHERE NAME LIKE '%${con}%' AND ROWNUM &lt;= #{everyPageCount}*#{currentPage})
+		temp WHERE temp.m>(#{currentPage}-1)*#{everyPageCount}
+	</select>
+	
+	
+	<select id="getAll" parameterType="String" resultMap="myFoodMap">
+		SELECT * FROM MY_FOOD WHERE NAME LIKE #{name}
+	</select>
+	
+	<select id="getById" parameterType="String" resultMap="myFoodMap">
+		SELECT *  FROM MY_FOOD WHERE ID=#{id}
+	</select>
+	
+	<insert id="add" parameterType="myFood" >
+		INSERT INTO  MY_FOOD VALUES(#{id},#{name},#{price},#{describe},#{grade},#{type},#{pictureId},#{address},#{mapId})
+	</insert>
+	
+	<update id="update" parameterType="myFood">
+		UPDATE  MY_FOOD SET name=#{name},price=#{price},describe=#{describe},grade=#{grade},type=#{type},picture_Id=#{pictureId},address=#{address},MAP_ID=#{mapId} WHERE ID=#{id}
+	</update>
+	
+	<delete id="delete" parameterType="String" >
+		DELETE FROM MY_FOOD WHERE ID=#{id}
+	</delete>
+	
+	
+	
+</mapper>

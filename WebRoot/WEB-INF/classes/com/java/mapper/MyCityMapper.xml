@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.java.mapper.MyCityMapper" >
+
+
+	<!-- 查询所有记录条数  -->
+	<select id="getAllCount" resultType="Integer">
+		SELECT COUNT(*) FROM MY_CITY
+	</select>
+	
+	<!-- 分页查询  -->
+	<select id="getEveryPageCount" parameterType="page" resultType="myCity">
+		SELECT * FROM (SELECT ROWNUM m,mc.* FROM MY_CITY mc WHERE NAME LIKE '%${con}%' AND ROWNUM &lt;= #{everyPageCount}*#{currentPage})
+		temp WHERE temp.m>(#{currentPage}-1)*#{everyPageCount}
+	</select>
+
+	<insert id="add" parameterType="myCity">
+		insert into my_city values(#{id},#{name},#{picture_id},#{describe},#{map})
+	</insert>
+	
+	<delete id="delete" parameterType="String">
+		delete from my_city where id=#{id}
+	</delete>
+	
+	<update id="update" parameterType="myCity">
+		update my_city set name=#{name},picture_id=#{picture_id},map=#{map},describe=#{describe} where id=#{id}
+	</update>
+	
+	<select id="getAll" parameterType="String" resultType="myCity">
+		select * from my_city where name like #{name}
+	</select>
+	
+	<select id="getById" parameterType="String" resultType="myCity">
+		select * from my_city where id = #{id}
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.java.mapper.InterestManagerMapper">
+	
+	<resultMap type="myManager" id="myManagerMap">
+		<id property="id" column="ID"/>
+		<result property="username" column="USERNAME"/>
+		<result property="password" column="PASSWORD"/>
+		<result property="name" column="NAME"/>
+		<result property="age" column="AGE"/>
+		<result property="sex" column="SEX"/>
+		<result property="email" column="E_MAIL"/>
+		<result property="phone" column="PHONE"/>
+		<result property="type" column="TYPE"/>
+	</resultMap>
+	
+	<!-- 登录  -->
+	<select id="checkLogin" parameterType="String" resultMap="myManagerMap">
+		SELECT * FROM MY_MANAGER WHERE USERNAME=#{username} AND PASSWORD=#{password}
+	</select>
+	
+	<!-- 根据id查询  -->
+	<select id="getById" parameterType="String" resultMap="myManagerMap">
+		SELECT * FROM MY_MANAGER WHERE ID=#{id}
+	</select>
+	
+	<!-- 查询所有  -->
+	<select id="getAll" parameterType="String" resultMap="myManagerMap">
+		SELECT * FROM MY_MANAGER WHERE NAME LIKE #{name}
+	</select>
+	
+	<!-- 查询是否有相同的用户名  -->
+	<select id="sameUsername" parameterType="String" resultType="Integer">
+		SELECT COUNT(*) FROM MY_MANAGER WHERE USERNAME=#{username}
+	</select>
+	
+	<!-- 添加新的景点管理员  -->
+	<insert id="add" parameterType="myManager">
+		INSERT INTO MY_MANAGER VALUES(#{id},#{username},#{password},#{name},
+		#{age},#{sex},#{email},#{phone},#{type})
+	</insert>
+	
+	<!-- 删除景点管理员  -->
+	<delete id="delete" parameterType="String">
+		DELETE FROM MY_MANAGER WHERE ID=#{id}
+	</delete>
+	
+	<!-- 修改景点管理员  -->
+	<update id="update" parameterType="myManager">
+		UPDATE MY_MANAGER
+		<set>
+			<if test="username!=null and username!=''">
+				USERNAME=#{username},
+			</if>
+			<if test="password!=null and password!=''">
+				PASSWORD=#{password},
+			</if>
+			<if test="name!=null and name!=''">
+				NAME=#{name},
+			</if>
+			<if test="age!=null and age!=''">
+				AGE=#{age},
+			</if>
+			<if test="sex!=null and sex!=''">
+				SEX=#{sex},
+			</if>
+			<if test="email!=null and email!=''">
+				E_MAIL=#{email},
+			</if>
+			<if test="phone!=null and phone!=''">
+				PHONE=#{phone},
+			</if>
+			<if test="type!=null and type!=''">
+				TYPE=#{type},
+			</if>
+		</set>
+		WHERE ID=#{id}
+	</update>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

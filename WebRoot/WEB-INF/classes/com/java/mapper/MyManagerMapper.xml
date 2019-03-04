@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.java.mapper.MyManagerMapper">
+
+	
+	<!-- 查询所有记录条数  -->
+	<select id="getAllCount" resultType="Integer">
+		SELECT COUNT(*) FROM MY_MANAGER
+	</select>
+	
+	<!-- 分页查询  -->
+	<select id="getEveryPageCount" parameterType="page" resultType="myManager">
+		SELECT * FROM (SELECT ROWNUM m,mm.* FROM MY_MANAGER mm WHERE NAME LIKE '%${con}%' AND ROWNUM &lt;= #{everyPageCount}*#{currentPage})
+		temp WHERE temp.m>(#{currentPage}-1)*#{everyPageCount}
+	</select>
+	
+	
+	<select id="checkManager" parameterType="String" resultType="myManager">
+		SELECT * FROM MY_MANAGER WHERE USERNAME=#{username} AND PASSWORD=#{password}
+	</select>
+	
+	<select id="getAll" parameterType="String" resultType="myManager">
+		SELECT * FROM MY_MANAGER WHERE NAME LIKE #{name}
+	</select>
+	
+	<select id="getById" parameterType="String" resultType="myManager">
+		SELECT *  FROM MY_MANAGER WHERE ID=#{id}
+	</select>
+	
+	<insert id="add" parameterType="myManager" >
+		INSERT INTO  MY_MANAGER VALUES(#{id},#{username},#{password},#{name},#{age},#{sex},#{email},#{phone},#{type})
+	</insert>
+	
+	<update id="update" parameterType="myManager">
+		UPDATE  MY_MANAGER SET username=#{username},password=#{password},name=#{name},age=#{age},
+		sex=#{sex},EMAIL=#{email},phone=#{phone},type=#{type} WHERE ID=#{id}
+	</update>
+	
+	<delete id="delete" parameterType="String" >
+		DELETE FROM MY_MANAGER WHERE ID=#{id}
+	</delete>
+</mapper>

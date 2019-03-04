@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+	<!-- 映射对应的接口 -->
+	<mapper namespace="com.java.mapper.MyTravelsMapper">
+		<resultMap type="com.java.bean.MyTravels" id="myTravels">
+			<result property="id" column="id"/>
+			<result property="author" column="author"/>
+			<result property="name" column="name"/>
+			<result property="time" column="begin_time"/>
+			<result property="days" column="days"/>
+			<result property="describe" column="describe"/>
+			<result property="picture_id" column="picture_id"/>
+			<result property="address" column="address"/>
+			<result property="way" column="ways"/>
+			
+		</resultMap>
+		
+		<select id="getByAuthor" parameterType="String" resultMap="myTravels">
+			select * from MY_TRAVELS WHERE author =#{author}
+		</select>
+		<select id="getAll" parameterType="String" resultMap="myTravels">
+			SELECT * FROM MY_TRAVELS WHERE ADDRESS LIKE #{address}
+		</select>
+				
+		<select id="getById" parameterType="String" resultMap="myTravels">
+			SELECT * FROM MY_TRAVELS WHERE ID=#{id}
+		</select>
+		
+		<insert id="add" parameterType="myTravels" >
+			INSERT INTO MY_TRAVELS VALUES(#{id},#{author},#{name},#{time},#{days},#{describe},#{picture_id},#{address},#{way})
+		</insert>
+		
+		<delete id="delete" parameterType="String">
+			DELETE FROM MY_TRAVELS WHERE ID=#{id}
+		</delete>
+		
+		<update id="update" parameterType="myTravels">
+			UPDATE MY_TRAVELS 
+			<set>
+				<if test="author!=null and author!=''">
+					author=#{author},
+				</if>
+				<if test="name!=null and name!='' ">
+					name=#{name},
+				</if>
+				<if test="time!=null and time!='' ">
+					time=#{time},
+				</if>
+				<if test="days!=null and days!='' ">
+					days=#{days},
+				</if>
+				<if test="describe!=null and describe!='' ">
+					describe=#{describe},
+				</if>
+				<if test="picture_id!=null and picture_id!='' ">
+					picture_id=#{picture_id},
+				</if>
+				<if test="address!=null and address!='' ">
+					address=#{address},
+				</if>
+				<if test="way!=null and way!=''">
+					way=#{way},
+				</if>
+				
+			</set>
+			WHERE ID=#{id}
+		</update>
+	</mapper>

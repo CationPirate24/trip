@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.java.mapper.MyInterestMapper">
+	
+	<resultMap type="myInterest" id="myInterestMap">
+		<result property="id" column="ID"/>
+		<result property="name" column="NAME"/>
+		<result property="price" column="PRICE"/>
+		<result property="describe" column="DESCRIBE"/>
+		<result property="pictureId" column="PICTURE_ID"/>
+		<result property="mapId" column="MAP_ID"/>
+		<result property="grade" column="GRADE"/>
+		<result property="interestType" column="INTEREST_TYPE"/>
+		<result property="myCityId" column="MY_CITY_ID"/>
+		<result property="address" column="ADDRESS"/>
+	</resultMap>
+	
+	<!-- 查询所有记录条数  -->
+	<select id="getAllCount" resultType="Integer">
+		SELECT COUNT(*) FROM MY_INTEREST
+	</select>
+	
+	<!-- 分页查询  -->
+	<select id="getEveryPageCount" parameterType="page" resultMap="myInterestMap">
+		SELECT * FROM (SELECT ROWNUM m,mi.* FROM MY_INTEREST mi WHERE NAME LIKE '%${con}%' AND ROWNUM &lt;= #{everyPageCount}*#{currentPage})
+		temp WHERE temp.m>(#{currentPage}-1)*#{everyPageCount}
+	</select>
+	
+	<!-- 遍历某个城市的所有景点  -->
+	<select id="getByMyCityId" parameterType="String" resultMap="myInterestMap">
+		SELECT * FROM MY_INTEREST WHERE MY_CITY_ID=#{myCityId}
+	</select>
+	
+	<!-- 根据id查询  -->
+	<select id="getById" parameterType="String" resultMap="myInterestMap">
+		SELECT * FROM MY_INTEREST WHERE ID=#{id}
+	</select>
+	
+	<!-- 模糊查询  -->
+	<select id="getAll" parameterType="String" resultMap="myInterestMap">
+		SELECT * FROM MY_INTEREST WHERE NAME LIKE '%${name}%'
+	</select>
+	
+	<!-- 增加景点  -->
+	<insert id="add" parameterType="myInterest">
+		INSERT INTO MY_INTEREST VALUES(#{id},#{name},#{price},
+		#{describe},#{pictureId},#{mapId},#{grade},#{interestType},#{myCityId},#{address})
+	</insert>
+	
+	<!-- 删除景点  -->
+	<delete id="delete" parameterType="String">
+		DELETE FROM MY_INTEREST WHERE ID=#{id}
+	</delete>
+	
+	<!-- 修改景点信息  -->
+	<update id="update" parameterType="myInterest">
+		UPDATE MY_INTEREST
+		<set>
+			<if test="name!=null and name!=''">
+				NAME=#{name},
+			</if>
+			<if test="price!=null and price!=''">
+				PRICE=#{price},
+			</if>
+			<if test="describe!=null and describe!=''">
+				DESCRIBE=#{describe},
+			</if>
+			<if test="pictureId!=null and pictureId!=''">
+				PICTURE_ID=#{pictureId},
+			</if>
+			<if test="mapId!=null and mapId!=''">
+				MAP_ID=#{mapId},
+			</if>
+			<if test="grade!=null and grade!=''">
+				GRADE=#{grade},
+			</if>
+			<if test="interestType!=null and interestType!=''">
+				INTEREST_TYPE=#{interestType},
+			</if>
+			<if test="myCityId!=null and myCityId!=''">
+				MY_CITY_ID=#{myCityId},
+			</if>
+			<if test="address!=null and address!=''">
+				ADDRESS=#{address},
+			</if>
+		</set>
+		WHERE ID=#{id}
+	</update>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.java.mapper.CodeMapper">
+	
+	<resultMap type="code" id="codeMap">
+		<result property="id" column="ID"/>
+		<result property="myKey" column="MY_KEY"/>
+		<result property="myValue" column="MY_VALUE"/>
+		<result property="type" column="TYPE"/>
+	</resultMap>
+	
+	<!-- 根据key和type查询  -->
+	<select id="getByKeyAndType" parameterType="String" resultMap="codeMap">
+		SELECT * FROM MY_CODE WHERE MY_KEY=#{myKey} AND TYPE=#{type}
+	</select>
+	
+	<!-- 查询出同属一种类型的值  -->
+	<select id="getByType" parameterType="String" resultMap="codeMap">
+		SELECT * FROM MY_CODE WHERE TYPE=#{type}
+	</select>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

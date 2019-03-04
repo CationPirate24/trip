@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+	<!-- 映射对应的接口 -->
+	<mapper namespace="com.java.mapper.MyHotelMapper">
+	
+	
+	<!-- 遍历城市的酒店  -->
+	<select id="getByMyCityId" parameterType="String" resultType="myHotel">
+		SELECT * FROM MY_HOTEL WHERE MY_CITY_ID=#{my_city_id}
+	</select>
+	
+	<!-- 查询所有记录条数  -->
+	<select id="getAllCount" resultType="Integer">
+		SELECT COUNT(*) FROM MY_HOTEL
+	</select>
+	
+	<!-- 分页查询  -->
+	<select id="getEveryPageCount" parameterType="page" resultType="myHotel">
+		SELECT * FROM (SELECT ROWNUM m,mh.* FROM MY_HOTEL mh WHERE NAME LIKE '%${con}%' AND ROWNUM &lt;= #{everyPageCount}*#{currentPage})
+		temp WHERE temp.m>(#{currentPage}-1)*#{everyPageCount}
+	</select>
+	
+	
+	<sql id="hotel">
+		id,name,price,begin_time,end_time,total,describe,count,picture_id,map_id,grade,type,my_city_id
+	</sql>
+
+	<select id="getById" parameterType="String" resultType="myHotel">
+		SELECT <include refid="hotel"></include>FROM MY_HOTEL WHERE ID=#{id}
+	</select>
+	
+	<select id="getAll"  parameterType="String" resultType="myHotel">
+		SELECT <include refid="hotel"></include> FROM MY_HOTEL WHERE NAME LIKE #{name}
+	</select>
+	
+	<insert id="add" parameterType="myHotel">
+		INSERT INTO MY_HOTEL(id,name,price,describe,count,picture_id,map_id,grade,type,my_city_id) 
+		VALUES(#{id},#{name},#{price},#{describe},#{count},#{picture_id},#{map_id},#{grade},#{type},#{my_city_id})
+	</insert>
+	
+	<delete id="delete" parameterType="String">
+		DELETE FROM MY_HOTEL WHERE ID=#{id}
+	</delete>
+	
+	<update id="update" parameterType="myHotel">
+		UPDATE MY_HOTEL 
+		<set>
+			<if test="name!=null and name!='' ">
+				name=#{name},
+			</if>
+			<if test="price!=null and price!='' ">
+				price=#{price},
+			</if>
+			<if test="begin_time!=null and begin_time!=''">
+				begin_time=#{begin_time},
+			</if>
+			<if test="end_time!=null and end_time!='' ">
+				end_time=#{end_time},
+			</if>
+			<if test="total!=null and total!='' ">
+				total=#{total},
+			</if>
+			<if test="describe!=null and describe!='' ">
+				describe=#{describe},
+			</if><if test="count!=null and count!='' ">
+				count=#{count},
+			</if>
+			<if test="picture_id!=null and picture_id!='' ">
+				picture_id=#{picture_id},
+			</if>
+			<if test="map_id!=null and map_id!='' ">
+				map_id=#{map_id},
+			</if>
+			<if test="grade!=null and grade!='' ">
+				grade=#{grade},
+			</if>
+			<if test="type!=null and type!='' ">
+				type=#{type},
+			</if>
+			<if test="my_city_id!=null and my_city_id!='' ">
+				my_city_id=#{my_city_id},
+			</if>			
+		</set>
+		 WHERE id=#{id}	
+	</update>
+	
+	
+
+
+
+
+</mapper>

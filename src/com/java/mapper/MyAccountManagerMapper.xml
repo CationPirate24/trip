@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.java.mapper.MyAccountManagerMapper" >
+  
+  <resultMap type="com.java.bean.UserManager" id="userManager">
+  	<result property="id" column="ID"/>
+		<result property="username" column="USERNAME"/>
+		<result property="password" column="PASSWORD"/>
+		<result property="name" column="NAME"/>
+		<result property="age" column="AGE"/>
+		<result property="sex" column="SEX"/>
+		<result property="e_mail" column="E_MAIL"/>
+		<result property="phone" column="PHONE"/>
+		<result property="type" column="TYPE"/>
+		
+  </resultMap>
+  	<select id="tocheckLogin" parameterType="com.java.bean.UserManager" resultMap="userManager">
+  		select * from my_manager where username=#{username} and password =#{password}
+  	</select>
+ 
+  
+</mapper>
